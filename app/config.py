@@ -30,7 +30,7 @@ class Settings(BaseSettings):
 
     # OPIK Monitoring
     OPIK_API_KEY: Optional[str] = None  # Optional for monitoring
-    OPIK_PROJECT_NAME: str = "Multi-Source-RAG"  # Add this line with your custom project name
+    OPIK_PROJECT_NAME: str = "RAG-Text2Sql"  # Add this line with your custom project name
 
     # Vanna 2.0 Configuration (Text-to-SQL)
     VANNA_MODEL: str = "gpt-4o"  # OpenAI model for SQL generation
@@ -52,7 +52,9 @@ class Settings(BaseSettings):
     USE_DOCKLING: bool = True  # Set to False for ARM64 to avoid PyTorch/ONNX errors
 
     # Storage Backend Configuration
-    STORAGE_BACKEND: str = "local"  # Options: "local", "s3"
+    STORAGE_BACKEND: str = "s3"  # Options: "local", "s3"
+    # UPLOAD_DIR: str = "data/uploads"
+    # CACHE_DIR: str = "data/cached_chunks"
 
     # Storage paths (auto-detects Lambda environment)
     @property
@@ -70,7 +72,7 @@ class Settings(BaseSettings):
         return "data/cached_chunks"
 
     # S3 Storage Configuration (for Lambda deployment)
-    S3_CACHE_BUCKET: str = "rag-cache-bucket"
+    S3_CACHE_BUCKET: str = "rag-cache-docsqa"
     AWS_REGION: str = "us-east-1"
     # AWS credentials from environment or IAM role (recommended for Lambda)
     # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are read automatically by boto3
@@ -84,6 +86,7 @@ class Settings(BaseSettings):
     CACHE_TTL_RAG: int = 3600           # 1 hour - may change with new documents
     CACHE_TTL_SQL_GEN: int = 86400      # 24 hours - schema relatively stable
     CACHE_TTL_SQL_RESULT: int = 900     # 15 minutes - data changes frequently
+
 
     @property
     def is_lambda(self) -> bool:
